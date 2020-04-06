@@ -1,37 +1,29 @@
-DROP DATABASE IF EXISTS top_songsDB;
-CREATE database top_songsDB;
+DROP DATABASE IF EXISTS EmployeeTracker_db;
+CREATE database EmployeeTracker_db;
 
-USE top_songsDB;
+USE EmployeeTracker_db;
 
-CREATE TABLE top5000 (
-  position INT NOT NULL,
-  artist VARCHAR(100) NULL,
-  song VARCHAR(100) NULL,
-  year INT NULL,
-  raw_total DECIMAL(10,4) NULL,
-  raw_usa DECIMAL(10,4) NULL,
-  raw_uk DECIMAL(10,4) NULL,
-  raw_eur DECIMAL(10,4) NULL,
-  raw_row DECIMAL(10,4) NULL,
-  PRIMARY KEY (position)
+CREATE TABLE employee (
+ id INT NOT NULL,
+  first_name VARCHAR(100) NULL,
+  last_name VARCHAR(100) NULL,
+  role_id INT NULL,
+manager_id INT,
+  PRIMARY KEY (id)
 );
 
-CREATE TABLE topAlbums (
-  position INT NOT NULL,
-  artist VARCHAR(100) NULL,
-  song VARCHAR(100) NULL,
-  year INT NULL,
-  raw_total DECIMAL(10,4) NULL,
-  raw_usa DECIMAL(10,4) NULL,
-  raw_uk DECIMAL(10,4) NULL,
-  raw_eur DECIMAL(10,4) NULL,
-  raw_row DECIMAL(10,4) NULL,
-  PRIMARY KEY (position)
+CREATE TABLE role_table (
+  id INT NOT NULL,
+title VARCHAR(100) NOT NULL,
+salary VARCHAR(100) NOT NULL,
+  department_id INT NOT NULL,
+  PRIMARY KEY (id)
 );
 
+CREATE TABLE department (
+    id INT NOT NULL,
+    departmentName VARCHAR(30),
+    PRIMARY KEY (id)
+)
 
-SELECT position, artist, year
-INTO albumSong
-FROM top5000
-INNER JOIN artist ON top5000.artist = topAlbums.artist;
 
