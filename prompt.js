@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+const consoleTable = require('console.table');
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -146,11 +147,46 @@ message: "What is this employee's manager's ID?"
 
 function viewFunction() {
   console.log("view function logs");
+  inquirer
+    .prompt({
+      name: "whatToView",
+      type: "rawlist",
+      message: "do you want to view a department, a role, or an employee?",
+      choices: ["department", "role", "employee"]
+    }).then(function(answer){
+        switch(answer.whatToView) {
+        case "department":
+            function viewDepartment(){
+                var query = "SELECT * FROM department";
+      connection.query(query, function(err, res) {
+        console.table(res)
+      })
+            }
+            viewDepartment();
+     break;       
+case "role":
+    function viewRole(){
+        var query = "SELECT * FROM role_table";
+connection.query(query, function(err, res) {
+console.table(res)
+})
+    }
+    viewRole();
+     break;       
+     case "employee":
+        function viewEmployee(){
+            var query = "SELECT * FROM employee";
+    connection.query(query, function(err, res) {
+    console.table(res)
+    })
+        }
+        viewEmployee();
+        break;       
+    }   
+    })
 }
-
 function updateFunction() {
   console.log("update function logs");
 }
 
-    // console.log("Add function still works")
-    // var query = "INSERT INTO employee (first_name, last_name, role_id, manager_id)";
+
