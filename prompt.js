@@ -72,7 +72,7 @@ function addFunction() {
                     console.log("something bad happened....");
                     console.log(err);
                     return;
-                  }
+                  }EmployeeTracker();
                 });
               });
           }
@@ -109,7 +109,7 @@ function addFunction() {
                       console.log(err);
                       return;
                     }
-                  }
+                  EmployeeTracker();}
                 );
               });
           }
@@ -156,11 +156,12 @@ function addFunction() {
                       console.log(err);
                       return;
                     }
-                  }
+                  EmployeeTracker();}
                 );
               });
           }
           addEmployee();
+          
           break;
       }
     });
@@ -172,7 +173,7 @@ function viewFunction() {
     .prompt({
       name: "whatToView",
       type: "rawlist",
-      message: "do you want to view a department, a role, or an employee?",
+      message: "do you want to view a department, a role, or employees?",
       choices: ["department", "role", "employee"],
     })
     .then(function (answer) {
@@ -182,6 +183,7 @@ function viewFunction() {
             var query = "SELECT * FROM department";
             connection.query(query, function (err, res) {
               console.table(res);
+               EmployeeTracker();
             });
           }
           viewDepartment();
@@ -191,15 +193,20 @@ function viewFunction() {
             var query = "SELECT * FROM role_table";
             connection.query(query, function (err, res) {
               console.table(res);
+              EmployeeTracker();
             });
           }
           viewRole();
           break;
         case "employee":
           function viewEmployee() {
-            var query = "SELECT * FROM employee";
-            connection.query(query, function (err, res) {
+            var query = "SELECT employee.first_name, employee.last_name, role_table.title, role_table.salary, departmentName "
+            query += "FROM employee LEFT JOIN role_table ON employee.role_id=role_table.role_id "
+            query += "left JOIN department ON role_table.department_id=department.department_id ORDER BY id ASC";
+            connection.query(query, [] , function (err, res) {
+              console.log(res)
               console.table(res);
+             EmployeeTracker(); 
             });
           }
           viewEmployee();
@@ -225,9 +232,11 @@ connection.query(query, [answer.roleID, answer.EmployeeFirstName], function (err
   if (err) {
     console.log("something bad happened....");
     console.log(err);
-    return;}
+    return;
+    ;}
     else {
       console.log("Table Updated!")
+      EmployeeTracker();
     }
 })
 
