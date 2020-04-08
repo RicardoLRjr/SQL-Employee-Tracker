@@ -24,7 +24,8 @@ function EmployeeTracker() {
       choices: [
         "Add departments, roles, or employees",
         "View departments, roles, or employees",
-        "Update employee roles",
+        "Update employee role",
+        "Update employee manager"
       ],
     })
     .then(function (answer) {
@@ -37,9 +38,13 @@ function EmployeeTracker() {
           viewFunction();
           break;
 
-        case "Update employee roles":
+        case "Update employee role":
           updateFunction();
           break;
+
+          case "Update employee manager":
+            updateManager();
+            break;
       }
     });
 }
@@ -211,7 +216,6 @@ function viewFunction() {
               "left JOIN department ON role_table.department_id=department.department_id "
             query += "LEFT JOIN manager ON employee.manager_id=manager.manager_id ORDER BY id ASC";
             connection.query(query, [], function (err, res) {
-              console.log(res);
               console.table(res);
               EmployeeTracker();
             });
@@ -240,6 +244,38 @@ function updateFunction() {
       connection.query(
         query,
         [answer.roleID, answer.EmployeeFirstName],
+        function (err, res) {
+          if (err) {
+            console.log("something bad happened....");
+            console.log(err);
+            return;
+          } else {
+            console.log("Table Updated!");
+            EmployeeTracker();
+          }
+        }
+      );
+    });
+}
+function updateManager() {
+  inquirer
+    .prompt([
+      {
+        name: "EmployeeFirstName",
+        type: "input",
+        message: "Which employee do you want to edit?",
+      },
+      {
+        name: "manager_id",
+        type: "input",
+        message: "What do you want to set this employee's manager_id to?",
+      },
+    ])
+    .then(function (answer) {
+      var query = "UPDATE employee SET manager_id = ? WHERE first_name = ?";
+      connection.query(
+        query,
+        [answer.manager_id, answer.EmployeeFirstName],
         function (err, res) {
           if (err) {
             console.log("something bad happened....");
