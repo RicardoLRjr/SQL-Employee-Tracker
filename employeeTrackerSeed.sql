@@ -23,17 +23,32 @@ PRIMARY KEY (role_id)
 CREATE TABLE department (
   department_id INT NOT NULL AUTO_INCREMENT,
     departmentName VARCHAR(30) NOT NULL,
+    manager_id INT NOT NULL,
     PRIMARY KEY (department_id)
 );
 
+CREATE TABLE manager(
+  manager_id INT NOT NULL AUTO_INCREMENT,
+    managerName VARCHAR(30) NOT NULL,
+    PRIMARY KEY (manager_id)
+);
+-- Default Values
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ("first name", "last name", 7, 11);
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Colt", "McCoy", 2, 10);
-
 INSERT INTO role_table (title, salary, department_id)
 VALUES ("title", "salary", 2);
+
+INSERT INTO department (departmentName, manager_id)
+VALUES ("department name", 1);
+
+INSERT INTO manager(managerName)
+VALUES ("manager name");
+
+-- Testing Values
+
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES ("Colt", "McCoy", 2, 2);
 
 INSERT INTO role_table (title, salary, department_id)
 VALUES ("Quarterback", "50000", 2);
@@ -41,22 +56,32 @@ VALUES ("Quarterback", "50000", 2);
 INSERT INTO role_table (title, salary, department_id)
 VALUES ("Running Back", "50000", 3);
 
-INSERT INTO department (departmentName)
-VALUES ("department name");
+INSERT INTO role_table (title, salary, department_id)
+VALUES ("Linebacker", "250000", 4);
+
+INSERT INTO role_table (title, salary, department_id)
+VALUES ("Safety", "250000", 5);
 
 INSERT INTO department (departmentName)
-VALUES ("University of Texas");
-SELECT * FROM employee;
-SELECT * FROM role_table;
-
+VALUES ("University of Texas", 2);
 
 INSERT INTO department (departmentName)
-VALUES ("University of Georgia");
-SELECT * FROM employee;
-SELECT * FROM role_table;
+VALUES ("University of Georgia", 3);
 
-SELECT employee.first_name, employee.last_name, role_table.title, role_table.salary, departmentName
-FROM employee
-INNER JOIN role_table ON employee.role_id=role_table.role_id
-INNER JOIN department ON role_table.department_id=department.department_id
+INSERT INTO department (departmentName)
+VALUES ("Michigan State University", 4);
 
+INSERT INTO department (departmentName)
+VALUES ("University of Alabama", 5);
+
+INSERT INTO manager(managerName)
+VALUES ("Mack Brown");
+
+INSERT INTO manager(managerName)
+VALUES ("Mark Richt");
+
+INSERT INTO manager(managerName)
+VALUES ("Mark Dantonio");
+
+INSERT INTO manager(managerName)
+VALUES ("Nick Saban");

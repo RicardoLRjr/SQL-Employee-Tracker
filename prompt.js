@@ -72,7 +72,8 @@ function addFunction() {
                     console.log("something bad happened....");
                     console.log(err);
                     return;
-                  }EmployeeTracker();
+                  }
+                  EmployeeTracker();
                 });
               });
           }
@@ -109,7 +110,8 @@ function addFunction() {
                       console.log(err);
                       return;
                     }
-                  EmployeeTracker();}
+                    EmployeeTracker();
+                  }
                 );
               });
           }
@@ -156,12 +158,13 @@ function addFunction() {
                       console.log(err);
                       return;
                     }
-                  EmployeeTracker();}
+                    EmployeeTracker();
+                  }
                 );
               });
           }
           addEmployee();
-          
+
           break;
       }
     });
@@ -183,7 +186,7 @@ function viewFunction() {
             var query = "SELECT * FROM department";
             connection.query(query, function (err, res) {
               console.table(res);
-               EmployeeTracker();
+              EmployeeTracker();
             });
           }
           viewDepartment();
@@ -200,13 +203,17 @@ function viewFunction() {
           break;
         case "employee":
           function viewEmployee() {
-            var query = "SELECT employee.first_name, employee.last_name, role_table.title, role_table.salary, departmentName "
-            query += "FROM employee LEFT JOIN role_table ON employee.role_id=role_table.role_id "
-            query += "left JOIN department ON role_table.department_id=department.department_id ORDER BY id ASC";
-            connection.query(query, [] , function (err, res) {
-              console.log(res)
+            var query =
+              "SELECT employee.first_name, employee.last_name, role_table.title, role_table.salary, departmentName, managerName ";
+            query +=
+              "FROM employee LEFT JOIN role_table ON employee.role_id=role_table.role_id ";
+            query +=
+              "left JOIN department ON role_table.department_id=department.department_id "
+            query += "LEFT JOIN manager ON employee.manager_id=manager.manager_id ORDER BY id ASC";
+            connection.query(query, [], function (err, res) {
+              console.log(res);
               console.table(res);
-             EmployeeTracker(); 
+              EmployeeTracker();
             });
           }
           viewEmployee();
@@ -215,30 +222,34 @@ function viewFunction() {
     });
 }
 function updateFunction() {
-  inquirer.prompt([
-    {
-      name: "EmployeeFirstName",
-      type: "input",
-      message: "Which employee do you want to edit?"
-  },
-    {
-      name: "roleID",
-      type: "number",
-      message: "What do you want to set this employee's role to?"
-  }
-]).then(function (answer) {
-var query = "UPDATE employee SET role_ID = ? WHERE first_name = ?";
-connection.query(query, [answer.roleID, answer.EmployeeFirstName], function (err, res){
-  if (err) {
-    console.log("something bad happened....");
-    console.log(err);
-    return;
-    ;}
-    else {
-      console.log("Table Updated!")
-      EmployeeTracker();
-    }
-})
-
-})
+  inquirer
+    .prompt([
+      {
+        name: "EmployeeFirstName",
+        type: "input",
+        message: "Which employee do you want to edit?",
+      },
+      {
+        name: "roleID",
+        type: "number",
+        message: "What do you want to set this employee's role to?",
+      },
+    ])
+    .then(function (answer) {
+      var query = "UPDATE employee SET role_ID = ? WHERE first_name = ?";
+      connection.query(
+        query,
+        [answer.roleID, answer.EmployeeFirstName],
+        function (err, res) {
+          if (err) {
+            console.log("something bad happened....");
+            console.log(err);
+            return;
+          } else {
+            console.log("Table Updated!");
+            EmployeeTracker();
+          }
+        }
+      );
+    });
 }
